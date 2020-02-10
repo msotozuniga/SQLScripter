@@ -50,6 +50,44 @@ namespace SQLScripter.Scripter
             }
         }
 
+        internal void generateDependencies(FileLibrary library, String place)
+        {
+            int position = 0;
+            Dictionary<String, Pair> dict = new Dictionary<string, Pair>();
+            while(library!= null)
+            {
+                Urn urn = serverExplorer(library.dbName, library.type, library.fileName).getUrn();
+                DependencyCollection collection = getUrnOrderList(urn);
+                foreach(DependencyCollectionNode d in collection)
+                {
+                    string key = d.Urn.Parent.GetAttribute("Name").ToUpper() + d.Urn.GetAttribute("Name");
+                    if (!dict.ContainsKey(d.Urn.Parent.GetAttribute("Name").ToUpper() + d.Urn.GetAttribute("Name")))
+                    {
+                        dict.Add()
+                    }
+                }
+
+            }
+        }
+
+        private DependencyCollection getUrnOrderList(Urn urn)
+        {
+            Urn[] urns = new Urn[] { urn };
+            DependencyWalker walker = new DependencyWalker(server);
+            DependencyTree tree = walker.DiscoverDependencies(urns, DependencyType.Parents);
+            DependencyCollection nodes = walker.WalkDependencies(tree);
+            DependencyCollection list = new DependencyCollection();
+            foreach (DependencyCollectionNode d in nodes)
+            {
+                if (d.Urn.Parent.GetAttribute("Name").Equals(urn.Parent.GetAttribute("Name")))
+                {
+                    list.AddRange(getUrnOrderList(d.Urn));
+                }
+            }
+            list.AddRange(nodes);
+            return null;
+        }
+
         /// <summary>
         /// Explora el servidor en busca del objeto dado la base de datos, tipo y nombre del objeto, y lo encapsula
         /// </summary>
