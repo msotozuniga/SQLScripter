@@ -60,4 +60,4 @@ Generador de scripts en masa para archivos SQL compatibles con SQL Server 2016 o
 
 ## Autores
 
-* Matías Soto -_ Trabajo inicial _- [msotozuniga](https://github.com/msotozuniga)
+* Matías Soto - _Trabajo inicial_ - [msotozuniga](https://github.com/msotozuniga)
