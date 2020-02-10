@@ -56,10 +56,10 @@ namespace SQLScripter.PkgManager
                 addToLog(script, place);
                 return;
             }
-            CompositePackage root = new CompositePackage("Base de datos", place);
-            CompositePackage db = new CompositePackage(script.dbName);
-            CompositePackage type = new CompositePackage(script.type);
-            SQLPackage file = new SQLPackage(script.fileName, script.script);
+            Folder root = new Folder("Base de datos", place);
+            Folder db = new Folder(script.dbName);
+            Folder type = new Folder(script.type);
+            SQLFile file = new SQLFile(script.fileName, script.script);
 
             root.addPackage(db);
             db.addPackage(type);
