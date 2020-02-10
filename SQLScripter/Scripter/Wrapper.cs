@@ -51,7 +51,7 @@ namespace SQLScripter.Scripter
         }
 
         /// <summary>
-        /// Genera un script tipo CREATE & DROP para el objeto envuelto. Disponible solo para procedimientos
+        /// Genera un script tipo ALTER para el objeto envuelto. Disponible solo para procedimientos
         /// </summary>
         /// <returns>Stringcollection que representa al script</returns>
         protected virtual StringCollection alterScript()
@@ -113,8 +113,6 @@ namespace SQLScripter.Scripter
 
             return script;
         }
-
-
 
         /// <summary>
         /// Adquiere la urn del objeto
@@ -202,7 +200,7 @@ namespace SQLScripter.Scripter
         }
 
         /// <summary>
-        /// Genera un script tipo CREATE & DROP para el objeto envuelto. Disponible solo para procedimientos
+        /// Genera un script tipo ALTER para el objeto envuelto. Disponible solo para procedimientos
         /// </summary>
         /// <returns>Stringcollection que representa al script</returns>
         protected override StringCollection alterScript()

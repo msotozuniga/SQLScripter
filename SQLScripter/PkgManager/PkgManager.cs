@@ -139,7 +139,7 @@ namespace SQLScripter.PkgManager
 
 
         /// <summary>
-        /// Crea la carpeta en la ubicación dada y sus carpetas o archivos asociados
+        /// Crea el archivo SQL en la ubicación dada
         /// </summary>
         public override void createPackage()
         {

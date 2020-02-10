@@ -9,7 +9,7 @@ using System.Data.SqlClient;
 namespace SQLScripter.Scripter
 {
     /// <summary>
-    /// Clase destinada a la creación
+    /// Clase destinada a la creación en conjuto de scripts
     /// </summary>
     public class Guionista
     {
@@ -17,7 +17,7 @@ namespace SQLScripter.Scripter
         public bool alter;
 
         /// <summary>
-        /// Contructor de clase. Inicializa el server entregado
+        /// Contructor de clase. Inicializa el servidor a usar
         /// </summary>
         /// <param name="serverName">Nombre de servidor e instancia</param>
         /// <param name="user">Nombre de usuario</param>
