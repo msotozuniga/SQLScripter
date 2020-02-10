@@ -1,6 +1,4 @@
-﻿
-
-namespace SQLScripter.Structures
+﻿namespace SQLScripter.Structures
 {
     /// <summary>
     /// Estructura tipo lista enlazada destinada a traspasar la información de un documento a algo simple para el guionista.

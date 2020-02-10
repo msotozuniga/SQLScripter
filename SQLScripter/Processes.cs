@@ -37,7 +37,6 @@ namespace SQLScripter
 
             FileLibrary f = p.createLibrary();
 
-            Console.WriteLine("Generando Scripts");
             try
             {
                 Guionista g = new Guionista(server, user, psw);
@@ -54,10 +53,7 @@ namespace SQLScripter
 
             }
 
-            Console.WriteLine("Creando zip");
             PkgCreator.generatePkg("zip", pkgPath, placeToCreateFiles);
-
-            Console.WriteLine("Terminado");
 
         }
 
