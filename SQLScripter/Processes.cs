@@ -58,7 +58,6 @@ namespace SQLScripter
             PkgCreator.generatePkg("zip", pkgPath, placeToCreateFiles);
 
             Console.WriteLine("Terminado");
-
         }
 
        

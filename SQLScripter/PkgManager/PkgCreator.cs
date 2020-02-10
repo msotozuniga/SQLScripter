@@ -1,6 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using SQLScripter.Structures;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SQLScripter.PkgManager
@@ -80,7 +81,37 @@ namespace SQLScripter.PkgManager
             TextWriter tw = new StreamWriter(errFile, true);
             tw.WriteLine("No se creo el archivo " + script.dbName + @"\" + script.type + @"\" + script.fileName);
             tw.Close();
+        }
 
+        internal static void createBat(Dictionary<string, Pair> dict, string place)
+        {
+            FileLibrary f = cleanOrder(dict);
+            try
+            {
+                using (StreamWriter sw = File.CreateText(place + @"\Compilacion_SQL.bat"))
+                {
+                    sw.Write("cls\r\n" +
+                        "echo instalador SQL\r\n" +
+                        "echo.\r\n" +
+                        "set / p Servidor = Ingrese el servidor:\r\n" +
+                        "set / p usuario = usuario :\r\n" +
+                        "set / p clave = password :\r\n \r\n");
+                    while(f != null)
+                    {
+
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("No se pudo crear correctamente el archivo Compilacio_SQL.bat");
+            }
+
+        }
+
+        private static FileLibrary cleanOrder(Dictionary<string, Pair> dict)
+        {
+            throw new NotImplementedException();
         }
     }
 }

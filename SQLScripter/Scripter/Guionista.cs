@@ -61,12 +61,18 @@ namespace SQLScripter.Scripter
                 foreach(DependencyCollectionNode d in collection)
                 {
                     string key = d.Urn.Parent.GetAttribute("Name").ToUpper() + d.Urn.GetAttribute("Name");
-                    if (!dict.ContainsKey(d.Urn.Parent.GetAttribute("Name").ToUpper() + d.Urn.GetAttribute("Name")))
+                    if (!dict.ContainsKey(key))
                     {
-                        dict.Add()
+                        dict.Add(key, new Pair(d.Urn, position));
+                        position++;
                     }
                 }
+                library = library.getNextInLine();
 
+            }
+            foreach(KeyValuePair<String,Pair> p in dict)
+            {
+                Console.WriteLine(p.Value.urn.ToString());
             }
         }
 
@@ -79,13 +85,13 @@ namespace SQLScripter.Scripter
             DependencyCollection list = new DependencyCollection();
             foreach (DependencyCollectionNode d in nodes)
             {
-                if (d.Urn.Parent.GetAttribute("Name").Equals(urn.Parent.GetAttribute("Name")))
+                if (!d.Urn.Parent.GetAttribute("Name").Equals(urn.Parent.GetAttribute("Name")))
                 {
                     list.AddRange(getUrnOrderList(d.Urn));
                 }
             }
             list.AddRange(nodes);
-            return null;
+            return list;
         }
 
         /// <summary>
@@ -137,6 +143,4 @@ namespace SQLScripter.Scripter
 
 
     }
-
-
 }

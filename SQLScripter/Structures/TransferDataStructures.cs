@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
-
+using Microsoft.SqlServer.Management.Sdk.Sfc;
 
 namespace SQLScripter.Structures
 {
@@ -58,6 +58,13 @@ namespace SQLScripter.Structures
             this.newStatus = nuevo;
         }
 
+        public FileLibrary(string dbName, string type, string fileName)
+        {
+            this.dbName = dbName;
+            this.type = type;
+            this.fileName = fileName;
+        }
+
         /// <summary>
         /// Método accesor para el siguiente elemento de la lista
         /// </summary>
@@ -79,6 +86,18 @@ namespace SQLScripter.Structures
                 return;
             }
             next.addLibrary(rowLibrary);
+        }
+    }
+
+    public class Pair
+    {
+        public Urn urn { get; private set; }
+        public int position { get; private set; }
+
+        public Pair(Urn urn, int position)
+        {
+            this.urn = urn;
+            this.position = position;
         }
     }
 }
