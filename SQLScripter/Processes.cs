@@ -61,11 +61,20 @@ namespace SQLScripter
 
             FileLibrary f = new FileLibrary("empresa", "Vistas", "view");
             FileLibrary p = new FileLibrary("empresa", "Vistas", "bastard");
+            FileLibrary l = new FileLibrary("PRACTICA", "Tablas", "child");
 
             f.addLibrary(p);
-            Guionista g = new Guionista(@"DA-FABPROD03\INSTANCIA8", "realais", "Sonda2018");
+            f.addLibrary(l);
+
+            Guionista g = new Guionista(@"***", "***", "***");
 
             FileLibrary lista = g.generateDependencies(f);
+
+            while (lista != null)
+            {
+                Console.WriteLine(lista.dbName + " \r\n"+ lista.type + "\r\n" + lista.fileName + "\r\n--------------------");
+                lista = lista.getNextInLine();
+            }
 
         }
 

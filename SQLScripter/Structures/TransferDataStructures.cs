@@ -105,19 +105,17 @@ namespace SQLScripter.Structures
 
         private FileLibrary extract(string v1, string v2)
         {
-            FileLibrary fl=null;
+            FileLibrary fl = new FileLibrary(null, null, null);
             FileLibrary aux = this;
             while (aux != null)
             {
                 if(aux.dbName.Equals(v1) && aux.fileName.Equals(v2))
                 {
-                    fl = aux;
-                    fl.next = null;
-                    break;
+                    fl.addLibrary(new FileLibrary(aux.dbName, aux.type, aux.fileName));
                 }
                 aux = aux.getNextInLine();
             }
-            return fl;
+            return fl.getNextInLine();
             
         }
     }
