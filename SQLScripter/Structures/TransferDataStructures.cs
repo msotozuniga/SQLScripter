@@ -87,6 +87,39 @@ namespace SQLScripter.Structures
             }
             next.addLibrary(rowLibrary);
         }
+
+        internal static FileLibrary orderDependencies(Dictionary<int, Urn> dict,FileLibrary original)
+        {
+            FileLibrary fl = new FileLibrary(null,null,null);
+            for(int i = 0; i< dict.Count; i++)
+            {
+
+                var tmp = original.extract(dict[i].Parent.GetAttribute("Name"), dict[i].GetAttribute("Name"));
+                if (tmp != null)
+                {
+                    fl.addLibrary(tmp);
+                }
+            }
+            return fl.getNextInLine();
+        }
+
+        private FileLibrary extract(string v1, string v2)
+        {
+            FileLibrary fl=null;
+            FileLibrary aux = this;
+            while (aux != null)
+            {
+                if(aux.dbName.Equals(v1) && aux.fileName.Equals(v2))
+                {
+                    fl = aux;
+                    fl.next = null;
+                    break;
+                }
+                aux = aux.getNextInLine();
+            }
+            return fl;
+            
+        }
     }
 
     public class Pair

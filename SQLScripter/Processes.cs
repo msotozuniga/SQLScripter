@@ -18,7 +18,7 @@ namespace SQLScripter
         /// <param name="user">Nombre de usuario</param>
         /// <param name="psw">Contraseña de usuario</param>
         public static void Process(String pathToExcel, String zipPath, String server, String user, String psw, bool altOption)
-        {
+        {/*
             if (!Directory.Exists(zipPath))
             {
                 Directory.CreateDirectory(zipPath);
@@ -57,7 +57,16 @@ namespace SQLScripter
             Console.WriteLine("Creando zip");
             PkgCreator.generatePkg("zip", pkgPath, placeToCreateFiles);
 
-            Console.WriteLine("Terminado");
+            Console.WriteLine("Terminado");*/
+
+            FileLibrary f = new FileLibrary("empresa", "Vistas", "view");
+            FileLibrary p = new FileLibrary("empresa", "Vistas", "bastard");
+
+            f.addLibrary(p);
+            Guionista g = new Guionista(@"DA-FABPROD03\INSTANCIA8", "realais", "Sonda2018");
+
+            FileLibrary lista = g.generateDependencies(f);
+
         }
 
        

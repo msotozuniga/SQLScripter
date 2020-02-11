@@ -50,8 +50,9 @@ namespace SQLScripter.Scripter
             }
         }
 
-        internal void generateDependencies(FileLibrary library, String place)
+        internal FileLibrary generateDependencies(FileLibrary files)
         {
+            FileLibrary library = files;
             int position = 0;
             Dictionary<String, Pair> dict = new Dictionary<string, Pair>();
             while(library!= null)
@@ -68,12 +69,17 @@ namespace SQLScripter.Scripter
                     }
                 }
                 library = library.getNextInLine();
-
+                
             }
-            foreach(KeyValuePair<String,Pair> p in dict)
+            Dictionary<int, Urn> order = new Dictionary<int, Urn>();
+            foreach(KeyValuePair<string,Pair> p in dict)
             {
-                Console.WriteLine(p.Value.urn.ToString());
+                order.Add(p.Value.position,p.Value.urn);
             }
+            
+            return FileLibrary.orderDependencies(order, files); 
+
+
         }
 
         private DependencyCollection getUrnOrderList(Urn urn)
