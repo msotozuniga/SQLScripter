@@ -59,16 +59,18 @@ namespace SQLScripter
 
             Console.WriteLine("Terminado");*/
 
+            FileLibrary v = new FileLibrary("PRACTICA", "Vistas", "v_of_v");
             FileLibrary f = new FileLibrary("empresa", "Vistas", "view");
             FileLibrary p = new FileLibrary("empresa", "Vistas", "bastard");
             FileLibrary l = new FileLibrary("PRACTICA", "Tablas", "child");
 
-            f.addLibrary(p);
-            f.addLibrary(l);
+            p.addLibrary(f);
+            p.addLibrary(l);
+            p.addLibrary(v);
 
-            Guionista g = new Guionista(@"***", "***", "***");
+            Guionista g = new Guionista(@"DA-FABPROD03\INSTANCIA8", "realais", "Sonda2018");
 
-            FileLibrary lista = g.generateDependencies(f);
+            FileLibrary lista = g.generateDependencies(p);
 
             while (lista != null)
             {

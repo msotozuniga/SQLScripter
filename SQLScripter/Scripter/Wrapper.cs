@@ -1,6 +1,7 @@
 ﻿using Microsoft.SqlServer.Management.Sdk.Sfc;
 using Microsoft.SqlServer.Management.Smo;
 using System;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 
 namespace SQLScripter.Scripter
@@ -90,6 +91,38 @@ namespace SQLScripter.Scripter
             }
 
             return script;
+        }
+
+        internal List<Tuple<string, string>> getDependencies(Server server)
+        {
+            var list = new List<Tuple<string, string>>();
+            var dc = getUrnOrderList(urna, server);
+            var nodeId = dc[dc.Count - 1].Urn.Parent.GetAttribute("Name") + dc[dc.Count - 1].Urn.GetAttribute("Name");
+            for (int i = 0; i < dc.Count - 1; i++)
+            {
+                var id = dc[i].Urn.Parent.GetAttribute("Name") + dc[i].Urn.GetAttribute("Name");
+                list.Add(new Tuple<string, string>(nodeId,id));
+            }
+            return list;
+
+        }
+
+        private DependencyCollection getUrnOrderList(Urn urn, Server server)
+        {
+            Urn[] urns = new Urn[] { urn };
+            DependencyWalker walker = new DependencyWalker(server);
+            DependencyTree tree = walker.DiscoverDependencies(urns, DependencyType.Parents);
+            DependencyCollection nodes = walker.WalkDependencies(tree);
+            DependencyCollection list = new DependencyCollection();
+            foreach (DependencyCollectionNode d in nodes)
+            {
+                if (!d.Urn.Parent.GetAttribute("Name").Equals(urn.Parent.GetAttribute("Name")))
+                {
+                    list.AddRange(getUrnOrderList(d.Urn, server));
+                }
+            }
+            list.AddRange(nodes);
+            return list;
         }
 
         /// <summary>

@@ -50,54 +50,22 @@ namespace SQLScripter.Scripter
             }
         }
 
-        internal FileLibrary generateDependencies(FileLibrary files)
+        internal object[] createDependencyGraph(FileLibrary library)
         {
-            FileLibrary library = files;
-            int position = 0;
-            Dictionary<String, Pair> dict = new Dictionary<string, Pair>();
-            while(library!= null)
+            var nodes = new Dictionary<string, Node>();
+            var edges = new List<Tuple<string, string>>();
+            while (library != null)
             {
-                Urn urn = serverExplorer(library.dbName, library.type, library.fileName).getUrn();
-                DependencyCollection collection = getUrnOrderList(urn);
-                foreach(DependencyCollectionNode d in collection)
+                var node = new Node(library.dbName,library.type,library.fileName);
+                nodes.Add(library.dbName + library.fileName, node);
+                var file = this.serverExplorer(library.dbName, library.type, library.fileName);
+                var nodeDeps = file.getDependencies(server);
+                foreach (Tuple<string,string> t in nodeDeps)
                 {
-                    string key = d.Urn.Parent.GetAttribute("Name").ToUpper() + d.Urn.GetAttribute("Name");
-                    if (!dict.ContainsKey(key))
-                    {
-                        dict.Add(key, new Pair(d.Urn, position));
-                        position++;
-                    }
-                }
-                library = library.getNextInLine();
-                
-            }
-            Dictionary<int, Urn> order = new Dictionary<int, Urn>();
-            foreach(KeyValuePair<string,Pair> p in dict)
-            {
-                order.Add(p.Value.position,p.Value.urn);
-            }
-            
-            return FileLibrary.orderDependencies(order, files); 
-
-
-        }
-
-        private DependencyCollection getUrnOrderList(Urn urn)
-        {
-            Urn[] urns = new Urn[] { urn };
-            DependencyWalker walker = new DependencyWalker(server);
-            DependencyTree tree = walker.DiscoverDependencies(urns, DependencyType.Parents);
-            DependencyCollection nodes = walker.WalkDependencies(tree);
-            DependencyCollection list = new DependencyCollection();
-            foreach (DependencyCollectionNode d in nodes)
-            {
-                if (!d.Urn.Parent.GetAttribute("Name").Equals(urn.Parent.GetAttribute("Name")))
-                {
-                    list.AddRange(getUrnOrderList(d.Urn));
+                    edges.Add(t);
                 }
             }
-            list.AddRange(nodes);
-            return list;
+            return new object[] { nodes, edges };
         }
 
         /// <summary>

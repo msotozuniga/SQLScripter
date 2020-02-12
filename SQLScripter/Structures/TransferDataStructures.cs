@@ -131,4 +131,6 @@ namespace SQLScripter.Structures
             this.position = position;
         }
     }
+
+    
 }
