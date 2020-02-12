@@ -195,6 +195,7 @@
     <Compile Include="Scripter\UserDefinedFunctionWrapper.cs" />
     <Compile Include="Scripter\ViewWrapper.cs" />
     <Compile Include="Structures\FileLibrary.cs" />
+    <Compile Include="Structures\Node.cs" />
     <Compile Include="Structures\ScriptLocation.cs" />
     <Compile Include="Scripter\Wrapper.cs" />
   </ItemGroup>
