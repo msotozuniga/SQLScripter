@@ -100,6 +100,8 @@ namespace SQLScripter.PkgManager
                 var insertion = n.dbName + @"\" + n.type + @"\" + n.fileName;
                 tw.WriteLine("osql - S % Servidor % -U % usuario % -P % clave % -n - i\"Base de datos\\"+insertion+ "\" >> \"ResultadoProcedimientos.Txt\"");
             }
+            tw.WriteLine("\r\n");
+            tw.WriteLine("pause");
 
             tw.Close();
 
