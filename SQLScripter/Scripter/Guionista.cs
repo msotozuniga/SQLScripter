@@ -5,6 +5,7 @@ using SQLScripter.Structures;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
+using System.Linq;
 
 namespace SQLScripter.Scripter
 {
@@ -44,7 +45,7 @@ namespace SQLScripter.Scripter
             while (library != null)
             {
                 Wrapper file = this.serverExplorer(library.dbName, library.type, library.fileName);
-                ScriptLocation sl = new ScriptLocation(library.dbName, library.type, library.fileName, file.script(library.newStatus,alter));
+                ScriptLocation sl = new ScriptLocation(library.dbName, library.type, library.fileName, file.script(library.newStatus, alter));
                 PkgCreator.createFile(sl, place);
                 library = library.getNextInLine();
             }
@@ -56,16 +57,61 @@ namespace SQLScripter.Scripter
             var edges = new List<Tuple<string, string>>();
             while (library != null)
             {
-                var node = new Node(library.dbName,library.type,library.fileName);
+                var node = new Node(library.dbName, library.type, library.fileName);
                 nodes.Add(library.dbName + library.fileName, node);
                 var file = this.serverExplorer(library.dbName, library.type, library.fileName);
                 var nodeDeps = file.getDependencies(server);
-                foreach (Tuple<string,string> t in nodeDeps)
+                foreach (Tuple<string, string> t in nodeDeps)
                 {
                     edges.Add(t);
                 }
+                library = library.getNextInLine();
             }
+
             return new object[] { nodes, edges };
+        }
+
+        internal List<Node> createDependencyList(object[] objs)
+        {
+            var nodes = (Dictionary<string, Node>)objs[0];
+            var edges = (List<Tuple<string, string>>)objs[1];
+            var list = new List<Node>();
+            var noEdges = extractBaseNodes(edges, nodes);
+            while (noEdges.Count > 0)
+            {
+                var n = noEdges.First();
+                noEdges.Remove(n.Key);
+                list.Add(n.Value);
+                foreach (var e in edges.Where(e => e.Item1.Equals(n.Key)).ToList())
+                {
+                    if (!nodes.ContainsKey(e.Item2))
+                    {
+                        edges.Remove(e);
+                        continue;
+                    }
+                    var m = nodes[e.Item2];
+                    edges.Remove(e);
+                    if (edges.All(me => me.Item2.Equals(e.Item2) == false))
+                    {
+                        noEdges.Add(e.Item2, m);
+                    }
+                }
+            }
+            list.Reverse();
+            return list;
+        }
+
+        public static Dictionary<string, Node> extractBaseNodes(List<Tuple<string,string>> edges, Dictionary<string, Node> nodes)
+        {
+            var dict = new Dictionary<string, Node>();
+            foreach (KeyValuePair<string, Node> node  in nodes)
+            {
+                if(edges.Where(e => e.Item2.Equals(node.Key)).Count() == 0)
+                {
+                    dict.Add(node.Key, node.Value);
+                }
+            }
+            return dict;
         }
 
         /// <summary>

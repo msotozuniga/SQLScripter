@@ -19,6 +19,7 @@ namespace SQLScripter
         /// <param name="psw">Contraseña de usuario</param>
         public static void Process(String pathToExcel, String zipPath, String server, String user, String psw, bool altOption)
         {
+            
             if (!Directory.Exists(zipPath))
             {
                 Directory.CreateDirectory(zipPath);
@@ -54,6 +55,8 @@ namespace SQLScripter
             }
 
             PkgCreator.generatePkg("zip", pkgPath, placeToCreateFiles);
+
+           
         }
 
        

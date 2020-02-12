@@ -3,6 +3,7 @@ using Microsoft.SqlServer.Management.Smo;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Linq;
 
 namespace SQLScripter.Scripter
 {
@@ -103,7 +104,8 @@ namespace SQLScripter.Scripter
                 var id = dc[i].Urn.Parent.GetAttribute("Name") + dc[i].Urn.GetAttribute("Name");
                 list.Add(new Tuple<string, string>(nodeId,id));
             }
-            return list;
+
+            return list.Distinct().ToList();
 
         }
 
@@ -118,7 +120,8 @@ namespace SQLScripter.Scripter
             {
                 if (!d.Urn.Parent.GetAttribute("Name").Equals(urn.Parent.GetAttribute("Name")))
                 {
-                    list.AddRange(getUrnOrderList(d.Urn, server));
+                    var tmp = getUrnOrderList(d.Urn, server);
+                    list.AddRange(tmp);
                 }
             }
             list.AddRange(nodes);
