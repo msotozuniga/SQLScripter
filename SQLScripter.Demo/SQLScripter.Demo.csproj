@@ -70,6 +70,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="Recursos\Demo_alter.xlsx" />
     <None Include="Recursos\Demo_fail.xls" />
     <None Include="Recursos\Demo_act.xlsx" />
   </ItemGroup>

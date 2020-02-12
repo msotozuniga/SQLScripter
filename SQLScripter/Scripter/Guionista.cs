@@ -1,9 +1,8 @@
-﻿using Microsoft.SqlServer.Management.Sdk.Sfc;
+﻿
 using Microsoft.SqlServer.Management.Smo;
 using SQLScripter.PkgManager;
 using SQLScripter.Structures;
 using System;
-using System.Collections.Generic;
 using System.Data.SqlClient;
 
 namespace SQLScripter.Scripter
