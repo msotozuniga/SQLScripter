@@ -1,6 +1,7 @@
 ﻿using ICSharpCode.SharpZipLib.Zip;
 using SQLScripter.Structures;
 using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace SQLScripter.PkgManager
@@ -80,6 +81,28 @@ namespace SQLScripter.PkgManager
             TextWriter tw = new StreamWriter(errFile, true);
             tw.WriteLine("No se creo el archivo " + script.dbName + @"\" + script.type + @"\" + script.fileName);
             tw.Close();
+        }
+
+        public static void createSQLCompiler(List<Node> list, string place)
+        {
+            string batFile = place + @"\Compilacion_SQL.bat";
+
+            TextWriter tw = new StreamWriter(batFile, true);
+            tw.WriteLine("cls");
+            tw.WriteLine("echo instalador SQL");
+            tw.WriteLine("echo.");
+            tw.WriteLine("set/p Servidor= Ingrese el servidor:");
+            tw.WriteLine("set/p usuario= usuario :");
+            tw.WriteLine("set/p clave= password :");
+            tw.WriteLine("\r\n");
+            foreach(Node n in list)
+            {
+                var insertion = n.dbName + @"\" + n.type + @"\" + n.fileName;
+                tw.WriteLine("osql - S % Servidor % -U % usuario % -P % clave % -n - i\"Base de datos\\"+insertion+ "\" >> \"ResultadoProcedimientos.Txt\"");
+            }
+
+            tw.Close();
+
         }
     }
 }
